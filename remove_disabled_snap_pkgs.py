@@ -29,12 +29,6 @@ def snap_list():
         return pkgs_dict
 
 
-def runN(cmd):
-    '''Use subprocess.run to execute terminal commands.'''
-    result = run(cmd, stdout=sys.stdout, stderr=sys.stderr, encoding='utf8')
-    return result
-
-    
 # 1. Get all snap pkgs in system
 all_path = sorted(SNAP_PKGS_PATH.glob('*.snap'))
 all_size = sum([p.stat().st_size for p in all_path])
@@ -59,7 +53,8 @@ disabled_size = all_size - active_size
 print('\nSIZE OF SNAP PACKAGES:')
 print(f'1. All      : {all_size:>{width}} bytes')
 print(f'2. Active   : {active_size:>{width}} bytes')
-print(f'2. Disabled : {disabled_size:>{width}} bytes or {(disabled_size/all_size):.2%} of All')
+print(f'2. Disabled : {disabled_size:>{width}} bytes or '
+      f'{(disabled_size/all_size):.2%} of All')
 
 if disabled_size > 0:
     print(f'\nREMOVE ALL DISABLED SNAP PACKAGES? [y/n]')
@@ -73,9 +68,11 @@ if disabled_size > 0:
                     bar_index = stem.index('_')
                     name = stem[:bar_index]
                     revision = stem[bar_index+1:]
-                    cmd = ['sudo', 'snap', 'remove', name, '--revision='+revision]
+                    cmd = ['sudo', 'snap', 'remove', name,
+                           '--revision='+revision]
                     print(f"\n{' '.join(cmd)}")
-                    runN(cmd)
+                    run(cmd, stdout=sys.stdout, stderr=sys.stderr,
+                        encoding='utf8')
             print(f'\nREMOVE ALL DISABLED SNAP PACKAGES? COMPLETED.')
             break
         elif decision in ['n', 'N', 'no', 'No', 'NO']:
