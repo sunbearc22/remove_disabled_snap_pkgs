@@ -1,7 +1,10 @@
 # remove_disabled_snap_pkgs
 
 ## Purpose: 
-This python script automates the removal of all disabled SNAP packages. In so doing, it will violate SNAP's inherent redundancy capability to allow automated rollback when a SNAP application crashes or when its upgrade is corrupted. However, it can help free up a significant amount of disk space (e.g. ~30% of total disk space of all SNAP packages).   
+This python script automates the removal of all disabled SNAP packages. It can free up a significant amount of disk space (e.g. ~30% of total disk space of all SNAP packages as illustrated in the example below). In so doing, please be aware that it will violate SNAP's inherent designed redundancy capability to allow automated rollback when a SNAP application crashes or when its upgrade is corrupted. Still, such rollback capability is typically not crucial for users of classic desktops and servers, hence this script has been developed.
+
+## Motivation & Credits
+Please read this [Ask Ubuntu question](https://askubuntu.com/q/1386455/541417) and answers.
 
 ## How to use the script? 
  1. Open a terminal and execute the python script as shown below. It will list all SNAP packages that are in the system, showing their "status", "bytes", "path". Those packages that are without the "Active" label are disabled, i.e. redundancy packages to allow automated rollbacks. The script will also list the total size of all the SNAP packages, and only "Active" and only "Disabled' packages.
